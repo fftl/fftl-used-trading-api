@@ -1,5 +1,7 @@
 package fftl.usedtradingapi.review.domain;
 
+import fftl.usedtradingapi.product.domain.Product;
+import fftl.usedtradingapi.user.domain.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,6 +22,12 @@ public class Review {
     private String content;
 
     //회원
+    @ManyToOne
+    @JoinColumn(name = "users_id")
+    private User user;
 
     //상품
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
 }

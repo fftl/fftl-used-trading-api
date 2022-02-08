@@ -1,9 +1,16 @@
 package fftl.usedtradingapi.user.domain;
 
+import fftl.usedtradingapi.commons.domain.Category;
+import fftl.usedtradingapi.image.domain.Image;
+import fftl.usedtradingapi.product.domain.Address;
+import fftl.usedtradingapi.product.domain.Product;
+import fftl.usedtradingapi.review.domain.Review;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -22,15 +29,22 @@ public class User {
     @Column(name = "users_password")
     private String password;
 
-    //내 동네 설정
-
-    //관심 상품 목록(찜)
-
     //관심 카테고리
+    @OneToMany(mappedBy = "user")
+    private List<Category> categories = new ArrayList<>();
 
-    //판매 상품
+    //내 동네 설정
+    @Embedded
+    private Address addresses;
 
-    //구매 상품
+    //상품 목록
+    @OneToMany(mappedBy = "user")
+    private List<Product> products = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Review> reviews = new ArrayList<>();
+
+    private Image image;
 
     @Column(name = "users_removed")
     private boolean removed;
