@@ -25,11 +25,12 @@ public class Image {
     @Column(name = "image_type")
     private ImageType imageType;
 
-    @Column(name = "image_removed")
-    private boolean removed;
-
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
+
+    @OneToOne
+    @JoinColumn(name = "users_id")
+    private User user;
 
 }

@@ -26,21 +26,28 @@ public class Product {
     private String title;
 
     //카테고리
-    @Column(name = "product_category")
+    @OneToOne
+    @JoinColumn(name = "category_id")
     private Category category;
 
     @Column(name = "product_price")
-    private Integer price;
+    private String price;
 
-    @Column(name = "product_price")
+    @Column(name = "product_description")
     private String description;
 
     //상태
-    @Column(name = "product_state")
-    private State state;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "product_status")
+    private Status status;
 
     //주소
     @Embedded
+    @AttributeOverrides({
+        @AttributeOverride(name = "state", column = @Column(name = "product_state")),
+        @AttributeOverride(name = "city", column = @Column(name = "product_city")),
+        @AttributeOverride(name = "town", column = @Column(name = "product_town")),
+    })
     private Address address;
 
     //관심도

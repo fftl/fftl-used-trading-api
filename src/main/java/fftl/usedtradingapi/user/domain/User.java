@@ -5,6 +5,8 @@ import fftl.usedtradingapi.image.domain.Image;
 import fftl.usedtradingapi.product.domain.Address;
 import fftl.usedtradingapi.product.domain.Product;
 import fftl.usedtradingapi.review.domain.Review;
+import fftl.usedtradingapi.user.dto.SaveUserRequest;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +16,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@Builder
 @NoArgsConstructor
 @Table(name = "users")
 public class User {
@@ -30,12 +33,18 @@ public class User {
     private String password;
 
     //관심 카테고리
-    @OneToMany(mappedBy = "user")
+    @OneToMany
+    @JoinColumn(name = "category_id")
     private List<Category> categories = new ArrayList<>();
 
     //내 동네 설정
     @Embedded
-    private Address addresses;
+    @AttributeOverrides({
+        @AttributeOverride(name = "state", column = @Column(name = "users_state")),
+        @AttributeOverride(name = "city", column = @Column(name = "users_city")),
+        @AttributeOverride(name = "town", column = @Column(name = "users_town")),
+    })
+    private Address address;
 
     //상품 목록
     @OneToMany(mappedBy = "user")
@@ -44,8 +53,19 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Review> reviews = new ArrayList<>();
 
+    @OneToOne(mappedBy = "user")
     private Image image;
 
     @Column(name = "users_removed")
     private boolean removed;
+
+    public void updateUser(SaveUserRequest request){
+        this.password = request.getPassword();
+        this.categories = request.getCategories();
+        this.address = request.getAddress();
+    }
+
+    public void deleteUser(){
+        this.removed = true;
+    }
 }
