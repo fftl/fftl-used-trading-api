@@ -6,6 +6,7 @@ import fftl.usedtradingapi.product.domain.Address;
 import fftl.usedtradingapi.product.domain.Product;
 import fftl.usedtradingapi.review.domain.Review;
 import fftl.usedtradingapi.user.dto.SaveUserRequest;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,7 @@ import java.util.List;
 @Getter
 @Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "users")
 public class User {
 
@@ -35,6 +37,7 @@ public class User {
     //관심 카테고리
     @OneToMany
     @JoinColumn(name = "category_id")
+    @Builder.Default
     private List<Category> categories = new ArrayList<>();
 
     //내 동네 설정
@@ -48,9 +51,11 @@ public class User {
 
     //상품 목록
     @OneToMany(mappedBy = "user")
+    @Builder.Default
     private List<Product> products = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
+    @Builder.Default
     private List<Review> reviews = new ArrayList<>();
 
     @OneToOne(mappedBy = "user")
