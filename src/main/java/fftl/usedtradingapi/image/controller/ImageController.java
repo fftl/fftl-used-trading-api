@@ -18,7 +18,7 @@ public class ImageController {
     private final S3Uploader s3Uploader;
 
     @PostMapping
-    public String upload(@RequestParam("image") MultipartFile multipartFile) throws IOException {
+    public String imageUpload(@RequestParam("image") MultipartFile multipartFile) throws IOException {
         s3Uploader.upload(multipartFile, "static");
         return "test";
     }
