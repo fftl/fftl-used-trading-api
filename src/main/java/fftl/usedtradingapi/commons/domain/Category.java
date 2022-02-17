@@ -1,14 +1,17 @@
 package fftl.usedtradingapi.commons.domain;
 
+import fftl.usedtradingapi.product.domain.Product;
 import fftl.usedtradingapi.user.domain.User;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
+@Builder
 @Getter
 @NoArgsConstructor
+@Entity
 public class Category {
 
     @Id
@@ -18,9 +21,5 @@ public class Category {
 
     @Column(name = "category_name")
     private String categoryName;
-
-    @ManyToOne
-    @JoinColumn(name = "users_id")
-    private User user;
 
 }
