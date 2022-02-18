@@ -21,7 +21,8 @@ public class UserResponse {
     private String ussername;
     private List<Category> categories;
     private Address address;
-    private List<Product> products;
+    private List<Product> myProducts;
+    private List<Product> wishProducts;
     private List<Review> reviews;
     private Image image;
 
@@ -31,7 +32,8 @@ public class UserResponse {
             .ussername(user.getUsername())
             .categories(user.getCategories())
             .address(user.getAddress())
-            .products(user.getProducts())
+            .myProducts(user.getMyProducts())
+            .wishProducts(user.getWishProducts())
             .reviews(user.getReviews())
             .image(user.getImage())
             .build();

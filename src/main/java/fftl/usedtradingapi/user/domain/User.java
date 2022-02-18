@@ -52,7 +52,11 @@ public class User {
     //상품 목록
     @OneToMany(mappedBy = "user")
     @Builder.Default
-    private List<Product> products = new ArrayList<>();
+    private List<Product> myProducts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    @Builder.Default
+    private List<Product> wishProducts = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     @Builder.Default
@@ -68,6 +72,22 @@ public class User {
         this.password = request.getPassword();
         this.categories = request.getCategories();
         this.address = request.getAddress();
+    }
+
+    public void addWishProduct(Product product){
+        this.wishProducts.add(product);
+    }
+
+    public void deleteWishProduct(Product product){
+        this.wishProducts.remove(product);
+    }
+
+    public void addCategory(Category category){
+        this.categories.add(category);
+    }
+
+    public void deleteCategory(Category category){
+        this.categories.remove(category);
     }
 
     public void deleteUser(){

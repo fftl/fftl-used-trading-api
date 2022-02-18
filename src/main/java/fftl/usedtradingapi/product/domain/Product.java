@@ -63,7 +63,7 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<Review> review = new ArrayList<>();
 
-    //후기
+    //상품 이미지
     @OneToMany(mappedBy = "product")
     private List<Image> images = new ArrayList<>();
 

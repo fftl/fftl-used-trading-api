@@ -21,12 +21,25 @@ public class ProductService {
         return true;
     }
 
-    public boolean getOneProduct(){
-        return true;
+    public boolean getProductByState() { return true; }
+
+    public boolean getProductByCity() { return true; }
+
+    public boolean getProductByTown() { return true; }
+
+    public Product getOneProduct(Long productId){
+        Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("해당 아이디를 가진 상품이 존재하지 않습니다."));
+        return product;
     }
 
     public boolean deleteProduct(){
         return true;
+    }
+
+    public boolean plusLike() { return true;
+    }
+
+    public boolean minusLike() { return true;
     }
 
 }

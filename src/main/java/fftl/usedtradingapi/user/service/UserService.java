@@ -1,5 +1,8 @@
 package fftl.usedtradingapi.user.service;
 
+import fftl.usedtradingapi.commons.utils.CategoryService;
+import fftl.usedtradingapi.product.domain.Product;
+import fftl.usedtradingapi.product.service.ProductService;
 import fftl.usedtradingapi.user.domain.User;
 import fftl.usedtradingapi.user.domain.UserRepository;
 import fftl.usedtradingapi.user.dto.LoginUserRequest;
@@ -15,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final ProductService productService;
+    private final CategoryService categoryService;
 
     /**
     * 유저 생성하기
@@ -54,6 +59,42 @@ public class UserService {
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("해당 id값을 가진 사용자를 찾을 수 없습니다."));
         user.updateUser(request);
         return UserResponse.toResponse(user);
+    }
+
+    /**
+     * 찜 상품 추가하기
+     * */
+    public UserResponse addWishProduct(Long userId, Long productId){
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("해당 id값을 가진 사용자를 찾을 수 없습니다."));
+        Product product = productService.getOneProduct(productId);
+        user.addWishProduct(product);
+
+        return UserResponse.toResponse(user);
+    }
+
+    /**
+     * 찜 상품 삭제하기
+     * */
+    public UserResponse deleteWishProduct(Long userId, Long productId){
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("해당 id값을 가진 사용자를 찾을 수 없습니다."));
+        Product product = productService.getOneProduct(productId);
+        user.deleteWishProduct(product);
+
+        return UserResponse.toResponse(user);
+    }
+
+    /**
+     * 관심 카테고리 추가하기
+     * */
+    public UserResponse addCategory(Long userId, Long categoryId){
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("해당 id값을 가진 사용자를 찾을 수 없습니다."));
+    }
+
+    /**
+     * 관심 카테고리 삭제하기
+     * */
+    public UserResponse deleteDelete(Long userId, Long categoryId){
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("해당 id값을 가진 사용자를 찾을 수 없습니다."));
     }
 
     /**
