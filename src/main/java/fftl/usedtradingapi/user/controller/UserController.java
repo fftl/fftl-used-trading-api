@@ -17,25 +17,25 @@ public class UserController {
 
     @PostMapping
     public Response saveUser(@RequestBody SaveUserRequest saveUserRequest){
-        UserResponse userResponse = userService.saveUser(saveUserRequest);
+        UserResponse userResponse = UserResponse.toResponse(userService.saveUser(saveUserRequest));
         return new Response(true, null, userResponse);
     }
 
     @PostMapping("/login")
     public Response loginUser(@RequestBody LoginUserRequest loginUserRequest){
-        UserResponse userResponse = userService.loginUser(loginUserRequest);
+        UserResponse userResponse = UserResponse.toResponse(userService.loginUser(loginUserRequest));
         return new Response(true, null, userResponse);
     }
 
     @GetMapping("/{userId}")
     public Response getOneUser(@PathVariable Long userId){
-        UserResponse userResponse = userService.getOneUser(userId);
+        UserResponse userResponse = UserResponse.toResponse(userService.getOneUser(userId));
         return new Response(true, null, userResponse);
     }
 
     @PatchMapping("/{userId}")
     public Response updateUser(@PathVariable Long userId, @RequestBody SaveUserRequest saveUserRequest){
-        UserResponse userResponse = userService.updateUser(userId, saveUserRequest);
+        UserResponse userResponse = UserResponse.toResponse(userService.updateUser(userId, saveUserRequest));
         return new Response(true, null, userResponse);
     }
 

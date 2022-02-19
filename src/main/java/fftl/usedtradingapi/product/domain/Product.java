@@ -4,6 +4,7 @@ import fftl.usedtradingapi.commons.domain.Category;
 import fftl.usedtradingapi.image.domain.Image;
 import fftl.usedtradingapi.review.domain.Review;
 import fftl.usedtradingapi.user.domain.User;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,8 +12,10 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Entity
 @Getter
+@Builder
 @NoArgsConstructor
 @Table(name = "product")
 public class Product {
@@ -67,4 +70,24 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<Image> images = new ArrayList<>();
 
+
+    public void plusLike(){
+        this.like++;
+    }
+
+    public void minusLike(){
+        this.like--;
+    }
+
+    public void statusSale() {
+        this.status = Status.SALE;
+    }
+
+    public void statusComplete() {
+        this.status = Status.COMPLETE;
+    }
+
+    public void statusCancel() {
+        this.status = Status.CANCEL;
+    }
 }

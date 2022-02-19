@@ -1,7 +1,9 @@
 package fftl.usedtradingapi.review.domain;
 
 import fftl.usedtradingapi.product.domain.Product;
+import fftl.usedtradingapi.review.dto.SaveReviewRequest;
 import fftl.usedtradingapi.user.domain.User;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +11,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter
+@Builder
 @NoArgsConstructor
 @Table(name = "review")
 public class Review {
@@ -30,4 +33,9 @@ public class Review {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
+
+    public void updateReview(String content){
+        this.content = content;
+    }
+
 }
