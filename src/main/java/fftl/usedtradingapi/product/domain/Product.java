@@ -4,6 +4,7 @@ import fftl.usedtradingapi.commons.domain.Category;
 import fftl.usedtradingapi.image.domain.Image;
 import fftl.usedtradingapi.review.domain.Review;
 import fftl.usedtradingapi.user.domain.User;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,7 @@ import java.util.List;
 @Getter
 @Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "product")
 public class Product {
 
@@ -64,10 +66,12 @@ public class Product {
 
     //후기
     @OneToMany(mappedBy = "product")
+    @Builder.Default
     private List<Review> review = new ArrayList<>();
 
     //상품 이미지
     @OneToMany(mappedBy = "product")
+    @Builder.Default
     private List<Image> images = new ArrayList<>();
 
 
@@ -77,6 +81,12 @@ public class Product {
 
     public void minusLike(){
         this.like--;
+    }
+
+    public void productImageUpload(List<Image> images) {
+        for(Image image : images){
+            this.images.add(image);
+        }
     }
 
     public void statusSale() {

@@ -3,6 +3,7 @@ package fftl.usedtradingapi.review.domain;
 import fftl.usedtradingapi.product.domain.Product;
 import fftl.usedtradingapi.review.dto.SaveReviewRequest;
 import fftl.usedtradingapi.user.domain.User;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "review")
 public class Review {

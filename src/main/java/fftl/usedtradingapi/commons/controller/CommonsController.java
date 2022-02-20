@@ -19,4 +19,6 @@ public class CommonsController {
     public boolean deleteCategory(@PathVariable Long categoryId){
         return true;
     }
+
+
 }

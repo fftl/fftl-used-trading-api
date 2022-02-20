@@ -7,10 +7,12 @@ import fftl.usedtradingapi.product.domain.Product;
 import fftl.usedtradingapi.product.domain.Status;
 import fftl.usedtradingapi.user.domain.User;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+@Setter
 @Getter
 public class SaveProductRequest {
 
@@ -38,6 +40,7 @@ public class SaveProductRequest {
             .description(description)
             .status(status)
             .address(Address.builder().state(state).city(city).town(town).build())
+            .user(user)
             .build();
     }
 }

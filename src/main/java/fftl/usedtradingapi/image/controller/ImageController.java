@@ -1,6 +1,9 @@
 package fftl.usedtradingapi.image.controller;
 
+import fftl.usedtradingapi.commons.dto.Response;
 import fftl.usedtradingapi.commons.utils.S3Uploader;
+import fftl.usedtradingapi.image.domain.Image;
+import fftl.usedtradingapi.image.domain.ImageType;
 import fftl.usedtradingapi.image.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +18,13 @@ import java.util.List;
 public class ImageController {
 
     private final ImageService imageService;
+    private final S3Uploader s3Uploader;
 
     //한개 이상의 여러개의 파일을 올릴 수 있기 때문에 List로 받습니다.
     @PostMapping("/product/{productId}")
     public boolean uploadProductImage(@RequestParam("image") List<MultipartFile> multipartFile, @PathVariable Long productId) throws IOException {
-        return true;
+        List<Image> images = imageService.uploadProductImage(multipartFile, productId);
+
     }
 
     @PostMapping("/user/{userId}")

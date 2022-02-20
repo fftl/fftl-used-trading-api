@@ -1,14 +1,19 @@
 package fftl.usedtradingapi.product.service;
 
 import fftl.usedtradingapi.commons.utils.S3Uploader;
+import fftl.usedtradingapi.image.domain.Image;
+import fftl.usedtradingapi.image.service.ImageService;
 import fftl.usedtradingapi.product.domain.Product;
 import fftl.usedtradingapi.product.domain.ProductRepository;
 import fftl.usedtradingapi.product.domain.Status;
 import fftl.usedtradingapi.product.dto.SaveProductRequest;
 import fftl.usedtradingapi.review.domain.Review;
+import fftl.usedtradingapi.user.domain.User;
+import fftl.usedtradingapi.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,13 +22,27 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepository productRepository;
-    private final S3Uploader s3Uploader;
+    private final UserService userService;
+    private final ImageService imageService;
 
     /**
      * imageUpload 완료하고 작성
      * */
-    public boolean saveProduct(SaveProductRequest saveProductRequest){
-        return true;
+    public Product saveProduct(SaveProductRequest saveProductRequest, Long userId) throws IOException {
+
+        // User Entity 가져오기
+        User user = userService.getOneUser(userId);
+        saveProductRequest.setUser(user);
+
+        // Product 등록하고 ProductId를 가져옴
+        // 그리고 ProductId 에 image를 등록합니다.
+        Product product = productRepository.save(saveProductRequest.toEntity());
+        List<Image> images = imageService.uploadProductImage(saveProductRequest.getFiles(), product.getId());
+
+        // 등록한 image들을 가지고 product에 다시 등록
+        product.productImageUpload(images);
+
+        return product;
     }
 
     /**
@@ -43,17 +62,17 @@ public class ProductService {
      * 지역별 상품 조회
      * */
     public List<Product> getProductByState(String state) {
-        List<Product> products = findSaleStatusProducts(productRepository.findByState(state));
+        List<Product> products = findSaleStatusProducts(productRepository.findByAddressState(state));
         return products;
     }
 
     public List<Product> getProductByCity(String city) {
-        List<Product> products = findSaleStatusProducts(productRepository.findByCity(city));
+        List<Product> products = findSaleStatusProducts(productRepository.findByAddressCity(city));
         return products;
     }
 
     public List<Product> getProductByTown(String town) {
-        List<Product> products = findSaleStatusProducts(productRepository.findByTown(town));
+        List<Product> products = findSaleStatusProducts(productRepository.findByAddressTown(town));
         return products;
     }
 
