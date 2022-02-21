@@ -12,4 +12,75 @@ Java, Spring Boot, Spring Data JPA, MySQL, AWS(IAM, S3)
 
 테이블, 즉 Entity는 User, Product, Image, Review, Category 이렇게 다섯가지가 존재합니다.
 
+```java
+User
+
+Long id;
+String username;
+String password;
+
+List<Category> categories;
+List<Product> myProducts;
+List<Product> wishProducts;
+List<Review> reviews;
+Image image;
+
+boolean removed;
+
+```
+
+```java
+Product
+
+Long id;
+
+String title;
+String price;
+String description;
+
+//@Embedeed String state, String city, String town
+Address address; 
+
+Status status;
+Category category;
+
+Integer like;
+
+User user;
+List<Review> review;
+List<Image> images;
+```
+
+```java
+Image
+
+Long id;
+String url;
+    
+//Enum
+ImageType imageType;
+
+Product product;
+User user;
+```
+
+```java
+Review
+
+Long id;
+String content;
+
+Product product;
+User user;
+```
+
+```java
+Category
+
+Long id;
+String cateogryName;
+
+```
+<!--
 ## 프로젝트 후기
+-->
