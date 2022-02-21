@@ -4,9 +4,12 @@ spring:
     url: jdbc:mysql://localhost:3306/fftl_used_trading_api?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: root
     password: root
+    data: classpath:data.sql
+    initialization-mode: always
 
   jpa:
     hibernate:
       ddl-auto: create
     database-platform: org.hibernate.dialect.MySQL5Dialect
+    defer-datasource-initialization: true
 

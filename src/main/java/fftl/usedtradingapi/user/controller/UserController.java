@@ -8,6 +8,7 @@ import fftl.usedtradingapi.user.dto.UserResponse;
 import fftl.usedtradingapi.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
@@ -57,6 +58,30 @@ public class UserController {
     @DeleteMapping("/category/{userId}")
     public Response deleteCategory(@PathVariable Long userId, @RequestParam("categoryId") Long categoryId){
         UserResponse userResponse = UserResponse.toResponse(userService.deleteUserCateogry(userId, categoryId));
+        return new Response(true, null, userResponse);
+    }
+
+    @PostMapping("/wishProduct/{userId}/{productId}")
+    public Response addWishProduct(@PathVariable Long userId, @PathVariable Long productId){
+        UserResponse userResponse = UserResponse.toResponse(userService.addWishProduct(userId, productId));
+        return new Response(true, null, userResponse);
+    }
+
+    @DeleteMapping("/wishProduct/{userId}/{productId}")
+    public Response deleteWishProduct(@PathVariable Long userId, @PathVariable Long productId){
+        UserResponse userResponse = UserResponse.toResponse(userService.deleteWishProduct(userId, productId));
+        return new Response(true, null, userResponse);
+    }
+
+    @PostMapping("/image")
+    public Response addUserImage(@PathVariable Long userId, @RequestParam("multipartFile") MultipartFile multipartFile) throws IOException{
+        UserResponse userResponse = UserResponse.toResponse(userService.addUserImage(userId, multipartFile));
+        return new Response(true, null, userResponse);
+    }
+
+    @DeleteMapping("/image")
+    public Response deleteUserImage(@PathVariable Long userId) throws IOException{
+        UserResponse userResponse = UserResponse.toResponse(userService.deleteUserImage(userId));
         return new Response(true, null, userResponse);
     }
 

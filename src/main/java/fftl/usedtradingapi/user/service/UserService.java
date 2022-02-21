@@ -4,6 +4,7 @@ import fftl.usedtradingapi.commons.domain.Category;
 import fftl.usedtradingapi.commons.utils.CategoryService;
 import fftl.usedtradingapi.image.domain.Image;
 import fftl.usedtradingapi.image.service.ImageService;
+import fftl.usedtradingapi.product.domain.ProductRepository;
 import fftl.usedtradingapi.product.service.ProductService;
 import fftl.usedtradingapi.user.domain.User;
 import fftl.usedtradingapi.user.domain.UserRepository;
@@ -23,7 +24,7 @@ import java.io.IOException;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final ProductService productService;
+    private final ProductRepository productRepository;
     private final CategoryService categoryService;
     private final ImageService imageService;
 
@@ -70,7 +71,7 @@ public class UserService {
      * pk로 유저 한명 조회
      * */
     public User getOneUser(Long userId){
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("해당 id값을 가진 사용자를 찾을 수 없습니다."));
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("해당 아이디 가진 유저는 존재하지 않습니다."));
         return user;
     }
 
@@ -87,8 +88,8 @@ public class UserService {
      * 찜 상품 추가하기
      * */
     public User addWishProduct(Long userId, Long productId){
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("해당 id값을 가진 사용자를 찾을 수 없습니다."));
-        user.addWishProduct(productService.getOneProduct(productId));
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("해당 아이디 가진 유저는 존재하지 않습니다."));
+        user.addWishProduct(productRepository.findById(productId).orElseThrow(()-> new RuntimeException("해당 아이디를 가진 상품은 존재하지 않습니다.")));
 
         return user;
     }
@@ -97,8 +98,8 @@ public class UserService {
      * 찜 상품 삭제하기
      * */
     public User deleteWishProduct(Long userId, Long productId){
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("해당 id값을 가진 사용자를 찾을 수 없습니다."));
-        user.deleteWishProduct(productService.getOneProduct(productId));
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("해당 아이디 가진 유저는 존재하지 않습니다."));
+        user.deleteWishProduct(productRepository.findById(productId).orElseThrow(()-> new RuntimeException("해당 아이디를 가진 상품은 존재하지 않습니다.")));
 
         return user;
     }
@@ -107,7 +108,7 @@ public class UserService {
      * 관심 카테고리 추가하기
      * */
     public User addUserCategory(Long userId, Long categoryId){
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("해당 id값을 가진 사용자를 찾을 수 없습니다."));
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("해당 아이디 가진 유저는 존재하지 않습니다."));
         user.addCategory(categoryService.getOneCategory(categoryId));
 
         return user;
@@ -117,7 +118,7 @@ public class UserService {
      * 관심 카테고리 삭제하기
      * */
     public User deleteUserCateogry(Long userId, Long categoryId){
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("해당 id값을 가진 사용자를 찾을 수 없습니다."));
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("해당 아이디 가진 유저는 존재하지 않습니다."));
         user.deleteCategory(categoryService.getOneCategory(categoryId));
 
         return user;
@@ -127,7 +128,7 @@ public class UserService {
      * 유저 삭제 처리
      * */
     public void deleteUser(Long userId){
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("해당 id값을 가진 사용자를 찾을 수 없습니다."));
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("해당 아이디 가진 유저는 존재하지 않습니다."));
         user.deleteUser();
     }
 
@@ -135,7 +136,7 @@ public class UserService {
      * 유저 이미지 추가(유저가 생성된 상태이고, Image가 비어있을 때)
      * */
     public User addUserImage(Long userId, MultipartFile multipartFile) throws IOException{
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("해당 id값을 가진 사용자를 찾을 수 없습니다."));
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("해당 아이디 가진 유저는 존재하지 않습니다."));
         if( user.getImage() != null ){
             throw new RuntimeException("유저는 이미지를 하나만 등록할 수 있습니다.");
         }
@@ -143,6 +144,20 @@ public class UserService {
         Image image = imageService.uploadUserImage(multipartFile, user.getId());
 
         user.addUserImage(image);
+
+        return user;
+    }
+
+    /**
+     * 유저 이미지 삭제
+     * */
+    public User deleteUserImage(Long userId) throws IOException{
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("해당 아이디 가진 유저는 존재하지 않습니다."));
+        if( user.getImage() == null ) {
+            throw new RuntimeException("등록된 이미지가 없습니다.");
+        }
+
+        user.deleteUserImage();
 
         return user;
     }

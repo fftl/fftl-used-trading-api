@@ -2,6 +2,7 @@ package fftl.usedtradingapi.image.domain;
 
 import fftl.usedtradingapi.product.domain.Product;
 import fftl.usedtradingapi.user.domain.User;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,7 @@ import java.util.List;
 @Entity
 @Builder
 @Getter
+@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "Image")
 public class Image {

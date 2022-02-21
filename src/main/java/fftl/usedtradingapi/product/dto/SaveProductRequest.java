@@ -17,7 +17,7 @@ import java.util.List;
 public class SaveProductRequest {
 
     private String title;
-    private Category category;
+    private Long categoryId;
     private String price;
     private String description;
     private Status status;
@@ -30,6 +30,7 @@ public class SaveProductRequest {
 
     private List<MultipartFile> files;
 
+    private Category category;
     private List<Image> images;
     private User user;
 

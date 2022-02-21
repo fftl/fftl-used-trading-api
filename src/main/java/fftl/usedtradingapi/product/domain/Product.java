@@ -102,6 +102,7 @@ public class Product {
     }
 
     public void updateProduct(SaveProductRequest saveProductRequest){
+        this.category = saveProductRequest.getCategory();
         this.title = saveProductRequest.getTitle();
         this.price = saveProductRequest.getPrice();
         this.description = saveProductRequest.getDescription();

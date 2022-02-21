@@ -1,5 +1,7 @@
 package fftl.usedtradingapi.product.service;
 
+import fftl.usedtradingapi.commons.domain.Category;
+import fftl.usedtradingapi.commons.domain.CategoryRepository;
 import fftl.usedtradingapi.commons.utils.S3Uploader;
 import fftl.usedtradingapi.image.domain.Image;
 import fftl.usedtradingapi.image.service.ImageService;
@@ -9,9 +11,11 @@ import fftl.usedtradingapi.product.domain.Status;
 import fftl.usedtradingapi.product.dto.SaveProductRequest;
 import fftl.usedtradingapi.review.domain.Review;
 import fftl.usedtradingapi.user.domain.User;
+import fftl.usedtradingapi.user.domain.UserRepository;
 import fftl.usedtradingapi.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,17 +26,19 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepository productRepository;
-    private final UserService userService;
+    private final UserRepository userRepository;
+    private final CategoryRepository categoryRepository;
     private final ImageService imageService;
 
-    /**
-     * imageUpload 완료하고 작성
-     * */
     public Product saveProduct(SaveProductRequest saveProductRequest) throws IOException {
 
         // User Entity 가져오기
-        User user = userService.getOneUser(saveProductRequest.getUserId());
+        User user = userRepository.findById(saveProductRequest.getUserId()).orElseThrow(() -> new RuntimeException("해당 아이디를 가진 유저는 존재하지 않습니다."));
         saveProductRequest.setUser(user);
+
+        // Category Entity 가져오기
+        Category category = categoryRepository.findById(saveProductRequest.getCategoryId()).orElseThrow(() -> new RuntimeException("해당 아이디를 가진 카테고리는 존재하지 않습니다."));
+        saveProductRequest.setCategory(category);
 
         // Product 등록하고 ProductId를 가져옴
         // 그리고 ProductId 에 image를 등록합니다.
@@ -46,6 +52,10 @@ public class ProductService {
     }
 
     public Product updateProduct(Long productId, SaveProductRequest saveProductRequest) throws IOException {
+
+        // Category Entity 가져오기
+        Category category = categoryRepository.findById(saveProductRequest.getCategoryId()).orElseThrow(() -> new RuntimeException("해당 아이디를 가진 카테고리는 존재하지 않습니다."));
+        saveProductRequest.setCategory(category);
 
         // User Entity 가져오기
         Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("해당 아이디를 가진 상품이 존재하지 않습니다."));
@@ -130,6 +140,34 @@ public class ProductService {
         return product.getReview();
     }
 
+    /**
+     * 새로운 이미지 추가, 이미지 삭제
+     * */
+    public Product addProductImage(Long productId, List<MultipartFile> multipartFiles) throws IOException{
+
+        Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("해당 아이디를 가진 상품이 존재하지 않습니다."));
+        List<Image> images = imageService.uploadProductImage(multipartFiles, productId);
+
+        product.uploadProductImage(images);
+
+        return product;
+    }
+
+    public Product deleteProductImage(Long productId, Long imageId){
+        Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("해당 아이디를 가진 상품이 존재하지 않습니다."));
+        if(product.getImages() == null){
+            throw new RuntimeException("해당 상품에 등록된 이미지가 존재하지 않습니다.");
+        }
+
+        product.deleteProductImage(imageService.getOneImage(imageId));
+
+        return product;
+    }
+
+    /**
+     * functions ---------------------------------------------------------------------------------------------
+     * */
+
     // 상품 리스트 중 sale 상태만 찾기
     public List<Product> findSaleStatusProducts(List<Product> products){
         List<Product> resultProducts = new ArrayList<>();
@@ -140,8 +178,4 @@ public class ProductService {
         }
         return resultProducts;
     }
-
-    //TODO
-    // - 카테고리 수정
-    // - 이미지 삭제, 추가
 }
