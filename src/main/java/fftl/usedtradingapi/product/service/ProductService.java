@@ -28,10 +28,10 @@ public class ProductService {
     /**
      * imageUpload 완료하고 작성
      * */
-    public Product saveProduct(SaveProductRequest saveProductRequest, Long userId) throws IOException {
+    public Product saveProduct(SaveProductRequest saveProductRequest) throws IOException {
 
         // User Entity 가져오기
-        User user = userService.getOneUser(userId);
+        User user = userService.getOneUser(saveProductRequest.getUserId());
         saveProductRequest.setUser(user);
 
         // Product 등록하고 ProductId를 가져옴
@@ -40,7 +40,16 @@ public class ProductService {
         List<Image> images = imageService.uploadProductImage(saveProductRequest.getFiles(), product.getId());
 
         // 등록한 image들을 가지고 product에 다시 등록
-        product.productImageUpload(images);
+        product.uploadProductImage(images);
+
+        return product;
+    }
+
+    public Product updateProduct(Long productId, SaveProductRequest saveProductRequest) throws IOException {
+
+        // User Entity 가져오기
+        Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("해당 아이디를 가진 상품이 존재하지 않습니다."));
+        product.updateProduct(saveProductRequest);
 
         return product;
     }
@@ -131,4 +140,8 @@ public class ProductService {
         }
         return resultProducts;
     }
+
+    //TODO
+    // - 카테고리 수정
+    // - 이미지 삭제, 추가
 }

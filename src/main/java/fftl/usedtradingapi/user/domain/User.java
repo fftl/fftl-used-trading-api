@@ -68,10 +68,14 @@ public class User {
     @Column(name = "users_removed")
     private boolean removed;
 
+    /**
+     * functions ---------------------------------------------------------------------------------------------
+     * */
+
     public void updateUser(SaveUserRequest request){
         this.password = request.getPassword();
         this.categories = request.getCategories();
-        this.address = request.getAddress();
+        this.address = Address.builder().state(request.getState()).city(request.getCity()).town(request.getTown()).build();
     }
 
     public void addWishProduct(Product product){
@@ -88,6 +92,14 @@ public class User {
 
     public void deleteCategory(Category category){
         this.categories.remove(category);
+    }
+
+    public void addUserImage(Image image){
+        this.image = image;
+    }
+
+    public void deleteUserImage(){
+        this.image = null;
     }
 
     public void deleteUser(){

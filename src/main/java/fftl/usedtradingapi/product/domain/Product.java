@@ -2,6 +2,7 @@ package fftl.usedtradingapi.product.domain;
 
 import fftl.usedtradingapi.commons.domain.Category;
 import fftl.usedtradingapi.image.domain.Image;
+import fftl.usedtradingapi.product.dto.SaveProductRequest;
 import fftl.usedtradingapi.review.domain.Review;
 import fftl.usedtradingapi.user.domain.User;
 import lombok.AllArgsConstructor;
@@ -74,6 +75,9 @@ public class Product {
     @Builder.Default
     private List<Image> images = new ArrayList<>();
 
+    /**
+     * functions ---------------------------------------------------------------------------------------------
+     * */
 
     public void plusLike(){
         this.like++;
@@ -83,10 +87,25 @@ public class Product {
         this.like--;
     }
 
-    public void productImageUpload(List<Image> images) {
+    public void uploadProductImage(List<Image> images) {
         for(Image image : images){
             this.images.add(image);
         }
+    }
+
+    public void deleteProductImage(Image image) {
+        this.images.remove(image);
+    }
+
+    public void updateCategory(Category category) {
+        this.category = category;
+    }
+
+    public void updateProduct(SaveProductRequest saveProductRequest){
+        this.title = saveProductRequest.getTitle();
+        this.price = saveProductRequest.getPrice();
+        this.description = saveProductRequest.getDescription();
+        this.address = Address.builder().state(saveProductRequest.getState()).city(saveProductRequest.getCity()).town(saveProductRequest.getTown()).build();
     }
 
     public void statusSale() {

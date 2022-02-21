@@ -21,6 +21,7 @@ public class SaveProductRequest {
     private String price;
     private String description;
     private Status status;
+    private Long userId;
 
     //Address
     private String state;

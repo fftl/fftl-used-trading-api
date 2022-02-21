@@ -25,6 +25,28 @@ public class ImageService {
     private final ProductService productService;
     private final UserService userService;
 
+    /**
+     * 이미 생성되어 있는 user에 이미지를 추가합니다.
+     * */
+    public Image uploadUserImage(MultipartFile file, Long userId) throws IOException{
+        User user = userService.getOneUser(userId);
+
+        if(user.getImage() != null){
+            throw new RuntimeException("유저는 하나의 이미지만 가질 수 있습니다.");
+        }
+
+        String imageUrl = s3Uploader.uploadUserImage(file);
+
+        return imageRepository.save(Image.builder()
+            .url(imageUrl)
+            .imageType(ImageType.User)
+            .user(user)
+            .build());
+    }
+
+    /**
+     * 이미 생성되어 있는 product에 이미지를 추가합니다.
+     * */
     public List<Image> uploadProductImage(List<MultipartFile> files, Long productId) throws IOException {
         List<Image> images = new ArrayList<>();
         List<String> imageUrls = s3Uploader.uploadProductImage(files);
@@ -41,17 +63,10 @@ public class ImageService {
         return images;
     }
 
-    public Image uploadUserImage(MultipartFile file, Long userId) throws IOException{
-        String imageUrl = s3Uploader.uploadUserImage(file);
-        User user = userService.getOneUser(userId);
 
-        return imageRepository.save(Image.builder()
-            .url(imageUrl)
-            .imageType(ImageType.User)
-            .user(user)
-            .build());
-    }
-
+    /**
+     * 등록되어 있는 이미지를 삭제합니다.
+     * */
     public void deleteImage(Long imageId){
         Image image = imageRepository.findById(imageId).orElseThrow(() -> new RuntimeException("해당 아이디를 가진 이미지가 존재하지 않습니다."));
         imageRepository.delete(image);

@@ -10,6 +10,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Builder
@@ -45,5 +47,28 @@ public class ProductResponse {
             .images(product.getImages())
             .reviews(product.getReview())
             .build();
+    }
+
+    public static List<ProductResponse> toResponse(List<Product> products){
+
+        List<ProductResponse> productResponses  = new LinkedList<>();
+
+        for(Product product : products){
+            productResponses.add(ProductResponse.builder()
+            .id(product.getId())
+            .title(product.getTitle())
+            .category(product.getCategory())
+            .price(product.getPrice())
+            .description(product.getDescription())
+            .status(product.getStatus())
+            .address(product.getAddress())
+            .like(product.getLike())
+            .userId(product.getUser().getId())
+            .images(product.getImages())
+            .reviews(product.getReview())
+            .build());
+        }
+
+        return productResponses;
     }
 }
