@@ -7,7 +7,9 @@ import fftl.usedtradingapi.product.dto.ProductResponse;
 import fftl.usedtradingapi.product.dto.SaveProductRequest;
 import fftl.usedtradingapi.product.service.ProductService;
 import fftl.usedtradingapi.review.domain.Review;
+import fftl.usedtradingapi.review.dto.ReviewResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -132,10 +134,9 @@ public class ProductController {
     /**
      * 해당 상품의 리뷰 전부 가져오기
      * */
-    // TODO return 값을 List<ReviewResponse> 형태로 변경해야 합니다.
-    @GetMapping("/{productId}")
+    @GetMapping("/review/{productId}")
     public Response getAllReviewProduct(@PathVariable Long productId){
-        List<Review> reviews = productService.getAllReviewProduct(productId);
-        return new Response(true, null, reviews);
+        List<ReviewResponse> reviewResponses = ReviewResponse.toResponse(productService.getAllReviewProduct(productId));
+        return new Response(true, null, reviewResponses);
     }
 }
