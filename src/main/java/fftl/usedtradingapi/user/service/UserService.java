@@ -53,7 +53,7 @@ public class UserService {
     }
 
     /**
-     * 로그인 하기 (password 암호화 작업을 진행해야 합니다.)
+     * 로그인 하기
      * */
     public User loginUser(LoginUserRequest request){
 
