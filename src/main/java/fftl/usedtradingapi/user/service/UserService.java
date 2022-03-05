@@ -117,7 +117,7 @@ public class UserService {
     /**
      * 관심 카테고리 삭제하기
      * */
-    public User deleteUserCateogry(Long userId, Long categoryId){
+    public User deleteUserCategory(Long userId, Long categoryId){
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("해당 아이디 가진 유저는 존재하지 않습니다."));
         user.deleteCategory(categoryService.getOneCategory(categoryId));
 

@@ -57,7 +57,7 @@ public class UserController {
 
     @DeleteMapping("/category/{userId}")
     public Response deleteCategory(@PathVariable Long userId, @RequestParam("categoryId") Long categoryId){
-        UserResponse userResponse = UserResponse.toResponse(userService.deleteUserCateogry(userId, categoryId));
+        UserResponse userResponse = UserResponse.toResponse(userService.deleteUserCategory(userId, categoryId));
         return new Response(true, null, userResponse);
     }
 
