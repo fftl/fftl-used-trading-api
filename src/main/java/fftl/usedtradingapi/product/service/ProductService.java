@@ -2,7 +2,6 @@ package fftl.usedtradingapi.product.service;
 
 import fftl.usedtradingapi.commons.domain.Category;
 import fftl.usedtradingapi.commons.domain.CategoryRepository;
-import fftl.usedtradingapi.commons.utils.S3Uploader;
 import fftl.usedtradingapi.image.domain.Image;
 import fftl.usedtradingapi.image.service.ImageService;
 import fftl.usedtradingapi.product.domain.Product;
@@ -12,7 +11,6 @@ import fftl.usedtradingapi.product.dto.SaveProductRequest;
 import fftl.usedtradingapi.review.domain.Review;
 import fftl.usedtradingapi.user.domain.User;
 import fftl.usedtradingapi.user.domain.UserRepository;
-import fftl.usedtradingapi.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

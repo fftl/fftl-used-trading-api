@@ -15,7 +15,6 @@ public class UsedTradingApiApplication {
 		new SpringApplicationBuilder(UsedTradingApiApplication.class)
 			.properties(APPLICATION_LOCATIONS)
 			.run(args);
-//		SpringApplication.run(UsedTradingApiApplication.class, args);
 	}
 
 }
