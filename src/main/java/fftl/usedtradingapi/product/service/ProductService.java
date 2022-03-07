@@ -11,14 +11,17 @@ import fftl.usedtradingapi.product.dto.SaveProductRequest;
 import fftl.usedtradingapi.review.domain.Review;
 import fftl.usedtradingapi.user.domain.User;
 import fftl.usedtradingapi.user.domain.UserRepository;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
 public class ProductService {
@@ -28,6 +31,7 @@ public class ProductService {
     private final CategoryRepository categoryRepository;
     private final ImageService imageService;
 
+    @Transactional
     public Product saveProduct(SaveProductRequest saveProductRequest) throws IOException {
 
         // User Entity 가져오기
@@ -49,6 +53,7 @@ public class ProductService {
         return product;
     }
 
+    @Transactional
     public Product updateProduct(Long productId, SaveProductRequest saveProductRequest) throws IOException {
 
         // Category Entity 가져오기
@@ -97,18 +102,21 @@ public class ProductService {
      * 상품 상태 변경
      * */
     // 판매완료 처리
+    @Transactional
     public void  saleProduct(Long productId){
         Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("해당 아이디를 가진 상품이 존재하지 않습니다."));
         product.statusSale();
     }
 
     // 판매완료 처리
+    @Transactional
     public void  completeProduct(Long productId){
         Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("해당 아이디를 가진 상품이 존재하지 않습니다."));
         product.statusComplete();
     }
 
     // 주문취소 처리
+    @Transactional
     public void  cancelProduct(Long productId){
         Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("해당 아이디를 가진 상품이 존재하지 않습니다."));
         product.statusCancel();
@@ -119,12 +127,14 @@ public class ProductService {
      * */
 
     // 좋아요 증가
+    @Transactional
     public void plusLike(Long productId) {
         Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("해당 아이디를 가진 상품이 존재하지 않습니다."));
         product.plusLike();
     }
 
     // 좋아요 감소
+    @Transactional
     public void minusLike(Long productId) {
         Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("해당 아이디를 가진 상품이 존재하지 않습니다."));
         product.minusLike();
@@ -141,6 +151,7 @@ public class ProductService {
     /**
      * 새로운 이미지 추가, 이미지 삭제
      * */
+    @Transactional
     public Product addProductImage(Long productId, List<MultipartFile> multipartFiles) throws IOException{
 
         Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("해당 아이디를 가진 상품이 존재하지 않습니다."));
@@ -151,6 +162,7 @@ public class ProductService {
         return product;
     }
 
+    @Transactional
     public Product deleteProductImage(Long productId, Long imageId){
         Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("해당 아이디를 가진 상품이 존재하지 않습니다."));
         if(product.getImages() == null){

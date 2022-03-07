@@ -6,12 +6,14 @@ import fftl.usedtradingapi.product.domain.Address;
 import fftl.usedtradingapi.product.domain.Product;
 import fftl.usedtradingapi.product.domain.Status;
 import fftl.usedtradingapi.user.domain.User;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+@Builder
 @Setter
 @Getter
 public class SaveProductRequest {
