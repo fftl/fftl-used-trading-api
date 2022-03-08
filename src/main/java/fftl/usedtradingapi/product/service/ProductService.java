@@ -101,7 +101,7 @@ public class ProductService {
     /**
      * 상품 상태 변경
      * */
-    // 판매완료 처리
+    // 판매중 처리
     @Transactional
     public void  saleProduct(Long productId){
         Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("해당 아이디를 가진 상품이 존재하지 않습니다."));

@@ -10,6 +10,7 @@ import fftl.usedtradingapi.product.domain.Product;
 import fftl.usedtradingapi.product.domain.ProductRepository;
 import fftl.usedtradingapi.product.domain.Status;
 import fftl.usedtradingapi.product.dto.SaveProductRequest;
+import fftl.usedtradingapi.review.domain.Review;
 import fftl.usedtradingapi.user.domain.User;
 import fftl.usedtradingapi.user.domain.UserRepository;
 import fftl.usedtradingapi.user.dto.LoginUserRequest;
@@ -60,10 +61,12 @@ class ProductServiceTest {
     private List<Long> categoryIds;
 
     private Product product;
+    private List<Product> products;
     private SaveProductRequest saveProductRequest;
 
     private Long userId;
     private Long productId;
+    private Long imageId;
 
     private Image image;
     private List<Image> images;
@@ -71,11 +74,14 @@ class ProductServiceTest {
     private MultipartFile multipartFile;
     private List<MultipartFile> multipartFiles;
 
+    private List<Review> reviews;
+
     @BeforeEach
     void setUp() throws Exception{
 
         userId = 1L;
         productId = 1L;
+        imageId = 1L;
 
         category = Category.builder().id(3L).categoryName("가구/인테리어").build();
 
@@ -94,9 +100,15 @@ class ProductServiceTest {
         );
 
         image = Image.builder().id(1L).imageType(ImageType.User).user(user).url("test.png").build();
-        images = Arrays.asList(
+        images = new ArrayList<>(Arrays.asList(
             image,
             Image.builder().id(2L).imageType(ImageType.User).user(user).url("test222.png").build()
+        ));
+
+        reviews = Arrays.asList(
+            Review.builder().product(product).user(user).id(1L).content("좋아요!").build(),
+            Review.builder().product(product).user(user).id(2L).content("맛있어요!").build(),
+            Review.builder().product(product).user(user).id(3L).content("재밌어요!!").build()
         );
 
         user = User.builder()
@@ -116,6 +128,8 @@ class ProductServiceTest {
             .status(Status.SALE)
             .address(Address.builder().state("경기도").city("부천시").town("상동").build())
             .user(user)
+            .like(0)
+            .review(reviews)
             .build();
 
         saveProductRequest = SaveProductRequest.builder()
@@ -131,6 +145,11 @@ class ProductServiceTest {
             .files(multipartFiles)
             .build();
 
+        products = Arrays.asList(
+            product,
+            Product.builder().id(2L).title("키보드 마우스").description("무선 키보드 마우스 세트입니다.").category(Category.builder().id(1L).categoryName("디지털기기").build()).price("40000").status(Status.SALE).address(Address.builder().state("경기도").city("부천시").town("상동").build()).user(user).status(Status.CANCEL).build(),
+            Product.builder().id(3L).title("에어팟").description("에어팟 미개봉 입니다").category(Category.builder().id(1L).categoryName("디지털기기").build()).price("150000").status(Status.SALE).address(Address.builder().state("경기도").city("부천시").town("상동").build()).user(user).status(Status.SALE).build()
+        );
     }
 
     @DisplayName("상품 등록하기 테스트")
@@ -150,64 +169,178 @@ class ProductServiceTest {
         assertEquals(result.getImages(), images);
     }
 
-
+    @DisplayName("상품 수정하기 테스트")
     @Test
-    void updateProduct() {
-    }
+    void updateProduct() throws Exception{
+        //given
+        when(categoryRepository.findById(any(Long.class))).thenReturn(Optional.ofNullable(category));
+        when(productRepository.findById(any(Long.class))).thenReturn(Optional.ofNullable(product));
+        SaveProductRequest updateProductRequest = SaveProductRequest.builder()
+            .title("조금 아쉬운 모니터")
+            .categoryId(1L)
+            .price("60000")
+            .description("3개월 사용했습니당.")
+            .status(Status.SALE)
+            .userId(1L)
+            .state("경기도")
+            .city("부천시")
+            .town("상동")
+            .files(multipartFiles)
+            .build();
 
-    @Test
-    void getAllProduct() {
-    }
+        //when
+        Product result = productService.updateProduct(productId, updateProductRequest);
 
-    @Test
-    void getOneProduct() {
-    }
+        //then
+        assertEquals(result.getPrice(), "60000");
+        assertEquals(result.getTitle(), "조금 아쉬운 모니터");
+        assertEquals(result.getDescription(), "3개월 사용했습니당.");
 
-    @Test
-    void getProductByState() {
     }
-
-    @Test
-    void getProductByCity() {
-    }
-
-    @Test
-    void getProductByTown() {
-    }
-
-    @Test
-    void saleProduct() {
-    }
-
+    @DisplayName("상품 상태 판매완료로 변경하기 테스트")
     @Test
     void completeProduct() {
+        //given
+        when(productRepository.findById(any(Long.class))).thenReturn(Optional.ofNullable(product));
+
+        //when
+        productService.completeProduct(productId);
+
+        //then
+        assertEquals(product.getStatus(), Status.COMPLETE);
     }
 
+    @DisplayName("상품 상태 판매취소로 변경하기 테스트")
     @Test
     void cancelProduct() {
+        //given
+        when(productRepository.findById(any(Long.class))).thenReturn(Optional.ofNullable(product));
+
+        //when
+        productService.cancelProduct(productId);
+
+        //then
+        assertEquals(product.getStatus(), Status.CANCEL);
     }
 
+    @DisplayName("상품 상태 판매중으로 변경하기 테스트")
+    @Test
+    void saleProduct() {
+        //given
+        product = Product.builder()
+            .id(1L)
+            .title("모니터")
+            .description("미개봉 모니터 입니당.")
+            .category(Category.builder().id(1L).categoryName("디지털기기").build())
+            .price("120000")
+            .status(Status.CANCEL)
+            .address(Address.builder().state("경기도").city("부천시").town("상동").build())
+            .user(user)
+            .build();
+        when(productRepository.findById(any(Long.class))).thenReturn(Optional.ofNullable(product));
+
+        //when
+        productService.saleProduct(productId);
+
+        //then
+        assertEquals(product.getStatus(), Status.SALE);
+    }
+
+    @DisplayName("상품 좋아요 증가하기 테스트")
     @Test
     void plusLike() {
+        //given
+        when(productRepository.findById(any(Long.class))).thenReturn(Optional.ofNullable(product));
+
+        //when
+        productService.plusLike(productId);
+
+        //then
+        assertEquals(product.getLike(), 1);
     }
 
+    @DisplayName("상품 좋아요 감소하기 테스트")
     @Test
     void minusLike() {
+        //given
+        when(productRepository.findById(any(Long.class))).thenReturn(Optional.ofNullable(product));
+
+        //when
+        productService.minusLike(productId);
+
+        //then
+        assertEquals(product.getLike(), -1);
     }
 
+    @DisplayName("상품 모든 리뷰 가져오기 테스트")
     @Test
     void getAllReviewProduct() {
+        //given
+        when(productRepository.findById(any(Long.class))).thenReturn(Optional.ofNullable(product));
+
+        //when
+        List<Review> result = productService.getAllReviewProduct(productId);
+
+        //then
+        assertEquals(result.size(), 3);
+        assertEquals(result.get(0).getContent(), "좋아요!");
+        assertEquals(result.get(1).getContent(), "맛있어요!");
+
     }
 
+    @DisplayName("상품 이미지 추가하기 테스트")
     @Test
-    void addProductImage() {
+    void addProductImage() throws Exception{
+        //given
+        when(productRepository.findById(any(Long.class))).thenReturn(Optional.ofNullable(product));
+        when(imageService.uploadProductImage(any(List.class), any(Long.class))).thenReturn(images);
+
+        //when
+        Product result = productService.addProductImage(productId, multipartFiles);
+
+        //then
+        assertEquals(result.getImages().size(), 2);
+        assertEquals(result.getImages().get(0).getUrl(), "test.png");
     }
 
+    @DisplayName("상품 이미지 삭제하기 테스트")
     @Test
     void deleteProductImage() {
+        //given
+        product = Product.builder()
+            .id(1L)
+            .title("모니터")
+            .description("미개봉 모니터 입니당.")
+            .category(Category.builder().id(1L).categoryName("디지털기기").build())
+            .price("120000")
+            .status(Status.SALE)
+            .address(Address.builder().state("경기도").city("부천시").town("상동").build())
+            .user(user)
+            .like(0)
+            .review(reviews)
+            .images(images)
+            .build();
+
+        when(productRepository.findById(any(Long.class))).thenReturn(Optional.ofNullable(product));
+        when(imageService.getOneImage(any(Long.class))).thenReturn(image);
+
+        //when
+        Product result = productService.deleteProductImage(productId, imageId);
+
+        //then
+        assertEquals(result.getImages().size(), 1);
+
     }
 
+    @DisplayName("상품 리스트에서 판매중 상품만 가져오기 테스트")
     @Test
     void findSaleStatusProducts() {
+        //when
+        List<Product> result = productService.findSaleStatusProducts(products);
+
+        //then
+        assertEquals(result.size(), 2);
+        assertEquals(result.get(0).getStatus(), Status.SALE);
+        assertEquals(result.get(1).getStatus(), Status.SALE);
     }
 }
