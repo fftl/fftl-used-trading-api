@@ -7,22 +7,17 @@ import fftl.usedtradingapi.review.domain.ReviewRepository;
 import fftl.usedtradingapi.review.dto.SaveReviewRequest;
 import fftl.usedtradingapi.user.domain.User;
 import fftl.usedtradingapi.user.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+@RequiredArgsConstructor
 @Service
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final UserService userService;
     private final ProductService productService;
-
-    @Autowired
-    ReviewService(ReviewRepository reviewRepository, UserService userService, ProductService productService){
-        this.reviewRepository = reviewRepository;
-        this.userService = userService;
-        this.productService = productService;
-    }
 
     /**
      * 리뷰 저장
