@@ -81,4 +81,4 @@ Long id;
 String cateogryName;
 
 ```
-jenkins 테스트합니다.
+jenkins 테스트를 다시 진행합니다.
