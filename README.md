@@ -12,6 +12,7 @@ Java, Spring Boot, Spring Data JPA, MySQL, AWS(IAM, S3)
 
 테이블, 즉 Entity는 User, Product, Image, Review, Category 이렇게 다섯가지가 존재합니다.
 
+
 ```java
 User
 
@@ -81,4 +82,6 @@ Long id;
 String cateogryName;
 
 ```
-jenkins 테스트를 다시 한번 진행합니다.
+## 배포
+
+AWS EC2, docker, jenkins 를 이용한 배포 작업중입니다.
