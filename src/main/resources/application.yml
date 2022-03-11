@@ -19,4 +19,13 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     defer-datasource-initialization: true
 
-
+cloud:
+  aws:
+    credentials:
+      instanceProfile: true
+    s3:
+      bucket: used-trading-api-bucket
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
