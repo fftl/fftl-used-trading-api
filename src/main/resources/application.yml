@@ -24,11 +24,11 @@ spring:
 
 cloud:
   aws:
-    credentials:
-      instanceProfile: true
     s3:
       bucket: used-trading-api-bucket
     region:
       static: ap-northeast-2
     stack:
       auto: false
+    credentials:
+      instanceProfile: true
