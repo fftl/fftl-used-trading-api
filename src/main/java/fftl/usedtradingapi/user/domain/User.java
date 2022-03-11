@@ -35,8 +35,7 @@ public class User {
     private String password;
 
     //관심 카테고리
-    @OneToMany
-    @JoinColumn(name = "category_id")
+    @OneToMany(mappedBy = "user")
     @Builder.Default
     private List<Category> categories = new ArrayList<>();
 

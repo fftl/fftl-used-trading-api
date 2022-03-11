@@ -66,7 +66,7 @@ public class Product {
     private User user;
 
     //후기
-    @OneToMany(mappedBy = "product")
+    @ManyToMany(mappedBy = "product")
     @Builder.Default
     private List<Review> review = new ArrayList<>();
 
