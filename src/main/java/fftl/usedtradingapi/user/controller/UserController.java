@@ -21,9 +21,9 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/toto/test")
+    @GetMapping("/test/print")
     public String deployTest(){
-        return "배포되었어요.";
+        return "배포되었어요 다시!!";
     }
 
     @PostMapping
