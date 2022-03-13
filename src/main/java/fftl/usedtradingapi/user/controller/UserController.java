@@ -23,7 +23,7 @@ public class UserController {
 
     @GetMapping("/test/print")
     public String deployTest(){
-        return "두번다시!!";
+        return "두번ㄳㄷㄳ!";
     }
 
     @PostMapping
