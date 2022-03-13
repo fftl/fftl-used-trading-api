@@ -84,4 +84,4 @@ String cateogryName;
 ```
 ## 배포
 
-AWS EC2, docker, jenkins 를 이용한 배포 작업중입니다.
+AWS EC2, docker, jenkins 를 이용한 배포 작업중입니다. @@#
