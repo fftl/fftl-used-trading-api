@@ -23,7 +23,7 @@ public class UserController {
 
     @GetMapping("/test")
     public String deployTest(){
-        return "배포성공";
+        return "배포성공!!!!!!!!!!!!";
     }
 
     @PostMapping
