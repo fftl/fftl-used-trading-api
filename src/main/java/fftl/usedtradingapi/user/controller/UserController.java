@@ -21,11 +21,6 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/test/print")
-    public String deployTest(){
-        return "두번ㄳㄱ3ㄱ2ㄱ23ㄱ23ㄳ!";
-    }
-
     @PostMapping
     public Response saveUser(@RequestBody SaveUserRequest saveUserRequest) throws IOException{
         UserResponse userResponse = UserResponse.toResponse(userService.saveUser(saveUserRequest));
