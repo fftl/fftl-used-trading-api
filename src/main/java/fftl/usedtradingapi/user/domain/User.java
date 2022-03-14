@@ -35,7 +35,7 @@ public class User {
     private String password;
 
     //관심 카테고리
-    @OneToMany(mappedBy = "user")
+    @OneToMany
     @Builder.Default
     private List<Category> categories = new ArrayList<>();
 

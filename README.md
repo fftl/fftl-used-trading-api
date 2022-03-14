@@ -6,82 +6,20 @@
 
 ## 사용 기술
 
-Java, Spring Boot, Spring Data JPA, MySQL, AWS(IAM, S3)
+- Java11
+- Spring Boot 2.5
+- Gradle
+- Spring Data JPA
+- H2
+- AWS S3
+- AWS EC2
+- docker-compose
+- jenkins
 
-## DB 설계
+## 프로젝트의 구조
 
-테이블, 즉 Entity는 User, Product, Image, Review, Category 이렇게 다섯가지가 존재합니다.
+![used_trading_api_구조도](https://user-images.githubusercontent.com/69035612/158099277-ab9792c1-df26-4361-9c8f-13d240e46a68.png)
 
+## DB ERD
 
-```java
-User
-
-Long id;
-String username;
-String password;
-
-List<Category> categories;
-List<Product> myProducts;
-List<Product> wishProducts;
-List<Review> reviews;
-Image image;
-
-boolean removed;
-
-```
-
-```java
-Product
-
-Long id;
-
-String title;
-String price;
-String description;
-
-//@Embedeed String state, String city, String town
-Address address; 
-
-Status status;
-Category category;
-
-Integer like;
-
-User user;
-List<Review> review;
-List<Image> images;
-```
-
-```java
-Image
-
-Long id;
-String url;
-    
-//Enum
-ImageType imageType;
-
-Product product;
-User user;
-```
-
-```java
-Review
-
-Long id;
-String content;
-
-Product product;
-User user;
-```
-
-```java
-Category
-
-Long id;
-String cateogryName;
-
-```
-## 배포
-
-AWS EC2, docker, jenkins 를 이용한 배포 작업중입니다. @@#
+![used_trading_api_erd](https://user-images.githubusercontent.com/69035612/158097692-334303f7-515c-4340-bd8a-4c0cb303d241.png)
