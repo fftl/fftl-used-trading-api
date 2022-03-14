@@ -111,7 +111,7 @@ class UserServiceTest {
             .user(user)
             .build();
 
-        multipartFile = new MockMultipartFile("test.xlsx", new FileInputStream(new File("src/main/resources/뚱이.jpg")));
+        multipartFile = new MockMultipartFile("test.xlsx", new FileInputStream(new File("src/main/resources/testImage.jpg")));
         image = Image.builder().imageType(ImageType.User).user(user).url("test.").build();
     }
 

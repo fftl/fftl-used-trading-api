@@ -69,10 +69,10 @@ class ImageServiceTest {
         productId = 1L;
         imageId = 1L;
 
-        multipartFile = new MockMultipartFile("test.png", new FileInputStream(new File("src/main/resources/뚱이.jpg")));
+        multipartFile = new MockMultipartFile("test.png", new FileInputStream(new File("src/main/resources/testImage.jpg")));
         multipartFiles = Arrays.asList(
             multipartFile,
-            new MockMultipartFile("test22.png", new FileInputStream(new File("src/main/resources/뚱이.jpg")))
+            new MockMultipartFile("test22.png", new FileInputStream(new File("src/main/resources/testImage.jpg")))
         );
 
         image = Image.builder().id(1L).imageType(ImageType.User).user(user).url("test.png").build();
