@@ -22,8 +22,7 @@
 
 ## ⛓DB ERD
 
-![used_trading_api_erd](https://user-images.githubusercontent.com/69035612/158097692-334303f7-515c-4340-bd8a-4c0cb303d241.png)
- 
+![used_trading_api_erd](https://user-images.githubusercontent.com/69035612/159124936-c9c2355d-f5ee-41d3-8a64-7c77b7170fa2.png)
 
 ## 📄프로젝트 이야기
 
