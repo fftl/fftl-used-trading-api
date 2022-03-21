@@ -1,4 +1,4 @@
-package fftl.usedtradingapi.product.controller;
+package fftl.usedtradingapi.controller;
 
 import org.junit.jupiter.api.Test;
 

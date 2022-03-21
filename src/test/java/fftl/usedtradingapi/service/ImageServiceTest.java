@@ -1,10 +1,11 @@
-package fftl.usedtradingapi.image.service;
+package fftl.usedtradingapi.service;
 
 import fftl.usedtradingapi.commons.domain.Category;
 import fftl.usedtradingapi.commons.utils.S3Uploader;
 import fftl.usedtradingapi.image.domain.Image;
 import fftl.usedtradingapi.image.domain.ImageRepository;
 import fftl.usedtradingapi.image.domain.ImageType;
+import fftl.usedtradingapi.image.service.ImageService;
 import fftl.usedtradingapi.product.domain.Address;
 import fftl.usedtradingapi.product.domain.Product;
 import fftl.usedtradingapi.product.domain.ProductRepository;

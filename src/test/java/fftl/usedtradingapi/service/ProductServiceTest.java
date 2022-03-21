@@ -1,4 +1,4 @@
-package fftl.usedtradingapi.product.service;
+package fftl.usedtradingapi.service;
 
 import fftl.usedtradingapi.commons.domain.Category;
 import fftl.usedtradingapi.commons.domain.CategoryRepository;
@@ -10,6 +10,7 @@ import fftl.usedtradingapi.product.domain.Product;
 import fftl.usedtradingapi.product.domain.ProductRepository;
 import fftl.usedtradingapi.product.domain.Status;
 import fftl.usedtradingapi.product.dto.SaveProductRequest;
+import fftl.usedtradingapi.product.service.ProductService;
 import fftl.usedtradingapi.review.domain.Review;
 import fftl.usedtradingapi.user.domain.User;
 import fftl.usedtradingapi.user.domain.UserRepository;

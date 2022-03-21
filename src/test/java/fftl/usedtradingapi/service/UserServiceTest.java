@@ -1,4 +1,4 @@
-package fftl.usedtradingapi.user.service;
+package fftl.usedtradingapi.service;
 
 import fftl.usedtradingapi.commons.domain.Category;
 import fftl.usedtradingapi.commons.utils.CategoryService;
@@ -13,6 +13,7 @@ import fftl.usedtradingapi.user.domain.User;
 import fftl.usedtradingapi.user.domain.UserRepository;
 import fftl.usedtradingapi.user.dto.LoginUserRequest;
 import fftl.usedtradingapi.user.dto.SaveUserRequest;
+import fftl.usedtradingapi.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package fftl.usedtradingapi.review.service;
+package fftl.usedtradingapi.service;
 
 import fftl.usedtradingapi.commons.domain.Category;
 import fftl.usedtradingapi.product.domain.Address;
@@ -8,6 +8,7 @@ import fftl.usedtradingapi.product.service.ProductService;
 import fftl.usedtradingapi.review.domain.Review;
 import fftl.usedtradingapi.review.domain.ReviewRepository;
 import fftl.usedtradingapi.review.dto.SaveReviewRequest;
+import fftl.usedtradingapi.review.service.ReviewService;
 import fftl.usedtradingapi.user.domain.User;
 import fftl.usedtradingapi.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;

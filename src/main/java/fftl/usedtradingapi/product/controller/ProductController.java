@@ -1,15 +1,11 @@
 package fftl.usedtradingapi.product.controller;
 
 import fftl.usedtradingapi.commons.dto.Response;
-import fftl.usedtradingapi.product.domain.Product;
-import fftl.usedtradingapi.product.domain.ProductRepository;
 import fftl.usedtradingapi.product.dto.ProductResponse;
 import fftl.usedtradingapi.product.dto.SaveProductRequest;
 import fftl.usedtradingapi.product.service.ProductService;
-import fftl.usedtradingapi.review.domain.Review;
 import fftl.usedtradingapi.review.dto.ReviewResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
