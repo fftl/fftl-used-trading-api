@@ -18,7 +18,7 @@ import java.util.List;
 public class UserResponse {
 
     private Long id;
-    private String ussername;
+    private String username;
     private List<Category> categories;
     private Address address;
     private List<Product> myProducts;
@@ -29,7 +29,7 @@ public class UserResponse {
     public static UserResponse toResponse(User user){
         return UserResponse.builder()
             .id(user.getId())
-            .ussername(user.getUsername())
+            .username(user.getUsername())
             .categories(user.getCategories())
             .address(user.getAddress())
             .myProducts(user.getMyProducts())
