@@ -74,13 +74,13 @@ public class UserController {
         return new Response(true, null, userResponse);
     }
 
-    @PostMapping("/image")
+    @PostMapping("/image/{userId}")
     public Response addUserImage(@PathVariable Long userId, @RequestParam("multipartFile") MultipartFile multipartFile) throws IOException{
         UserResponse userResponse = UserResponse.toResponse(userService.addUserImage(userId, multipartFile));
         return new Response(true, null, userResponse);
     }
 
-    @DeleteMapping("/image")
+    @DeleteMapping("/image/{userId}")
     public Response deleteUserImage(@PathVariable Long userId) throws IOException{
         UserResponse userResponse = UserResponse.toResponse(userService.deleteUserImage(userId));
         return new Response(true, null, userResponse);

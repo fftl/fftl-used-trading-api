@@ -17,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -72,6 +74,7 @@ public class UserService {
      * */
     public User getOneUser(Long userId){
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("해당 아이디 가진 유저는 존재하지 않습니다."));
+
         return user;
     }
 
@@ -80,6 +83,13 @@ public class UserService {
      * */
     public User updateUser(Long userId, SaveUserRequest request){
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("해당 id값을 가진 사용자를 찾을 수 없습니다."));
+        List<Category> categories = new ArrayList<>();
+
+        for(Long categoryId : request.getCategoryIds()){
+            categories.add(categoryService.getOneCategory(categoryId));
+        }
+        request.setCategories(categories);
+
         user.updateUser(request);
         return user;
     }
