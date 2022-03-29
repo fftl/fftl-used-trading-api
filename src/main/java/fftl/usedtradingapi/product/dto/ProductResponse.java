@@ -2,10 +2,12 @@ package fftl.usedtradingapi.product.dto;
 
 import fftl.usedtradingapi.commons.domain.Category;
 import fftl.usedtradingapi.image.domain.Image;
+import fftl.usedtradingapi.image.dto.ImageResponse;
 import fftl.usedtradingapi.product.domain.Address;
 import fftl.usedtradingapi.product.domain.Product;
 import fftl.usedtradingapi.product.domain.Status;
 import fftl.usedtradingapi.review.domain.Review;
+import fftl.usedtradingapi.review.dto.ReviewResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,10 +31,38 @@ public class ProductResponse {
     private Address address;
     private Integer like;
     private Long userId;
-    private List<Image> images;
-    private List<Review> reviews;
+    private List<ImageResponse> images;
+    private List<ReviewResponse> reviews;
+
+    public static List<ImageResponse> imageToImageResponse(List<Image> images){
+        List<ImageResponse> imageResponses = new ArrayList<>();
+        for(Image image: images){
+            imageResponses.add(ImageResponse.builder()
+                    .id(image.getId())
+                    .productId(image.getProduct().getId())
+                    .url(image.getUrl())
+                    .build());
+        }
+
+        return imageResponses;
+    }
+
+    public static List<ReviewResponse> reviewToReviewResponse(List<Review> reviews){
+        List<ReviewResponse> reviewResponses = new ArrayList<>();
+        for(Review review: reviews){
+            reviewResponses.add(ReviewResponse.builder()
+                    .id(review.getId())
+                    .content(review.getContent())
+                    .productId(review.getProduct().getId())
+                    .userId(review.getUser().getId())
+                    .build());
+        }
+
+        return reviewResponses;
+    }
 
     public static ProductResponse toResponse(Product product){
+
         return ProductResponse.builder()
             .id(product.getId())
             .title(product.getTitle())
@@ -44,8 +74,8 @@ public class ProductResponse {
             .address(product.getAddress())
             .like(product.getLike())
             .userId(product.getUser().getId())
-            .images(product.getImages())
-            .reviews(product.getReview())
+            .images(imageToImageResponse(product.getImages()))
+            .reviews(reviewToReviewResponse(product.getReview()))
             .build();
     }
 
@@ -64,8 +94,8 @@ public class ProductResponse {
             .address(product.getAddress())
             .like(product.getLike())
             .userId(product.getUser().getId())
-            .images(product.getImages())
-            .reviews(product.getReview())
+            .images(imageToImageResponse(product.getImages()))
+            .reviews(reviewToReviewResponse(product.getReview()))
             .build());
         }
 

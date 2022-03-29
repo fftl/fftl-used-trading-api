@@ -65,8 +65,6 @@ public class ProductController {
     /**
      * 좋아요 증가 감소
      * */
-    //TODO 생각해보니 유저별 좋아요 관리를 해주지 않으면 한사람이 계속해서 좋아요를 누를 수 있다.
-    // - 추후에 이 부분에 대해서 생각해보자.
     @PatchMapping("/plusLike/{productId}")
     public Response plusLike(@PathVariable Long productId){
         productService.plusLike(productId);

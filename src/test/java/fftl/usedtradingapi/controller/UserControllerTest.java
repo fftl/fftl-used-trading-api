@@ -461,7 +461,7 @@ class UserControllerTest {
                 document("addWishProduct",
                     //url의 파라미터는 아래와 같이 입력할 수 있다.
                     pathParameters(
-                            parameterWithName("userId").description("유저 key"),
+                        parameterWithName("userId").description("유저 key"),
                         parameterWithName("productId").description("찜 한 상품 key")
                     ),
                     responseFields(
@@ -510,7 +510,7 @@ class UserControllerTest {
                 document("addWishProduct",
                     //url의 파라미터는 아래와 같이 입력할 수 있다.
                     pathParameters(
-                            parameterWithName("userId").description("유저 key"),
+                        parameterWithName("userId").description("유저 key"),
                         parameterWithName("productId").description("찜 한 상품 key")
                     ),
                     responseFields(
