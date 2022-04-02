@@ -42,8 +42,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -332,6 +331,9 @@ class ProductControllerTest {
             .andExpect(jsonPath("$.success").value(true))
             .andExpect(jsonPath("$.message").doesNotExist())
             .andDo(document("getProductByState",
+                    requestParameters(
+                      parameterWithName("state").description("시/도 명")
+                    ),
                     responseFields(
                         fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("요청 성공여부"),
                         fieldWithPath("message").type(JsonFieldType.STRING).type(JsonFieldType.NULL).description("요청 실패시 메시지"),
@@ -382,6 +384,9 @@ class ProductControllerTest {
             .andExpect(jsonPath("$.success").value(true))
             .andExpect(jsonPath("$.message").doesNotExist())
             .andDo(document("getProductByCity",
+                    requestParameters(
+                      parameterWithName("city").description("시/군/구 명")
+                    ),
                     responseFields(
                         fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("요청 성공여부"),
                         fieldWithPath("message").type(JsonFieldType.STRING).type(JsonFieldType.NULL).description("요청 실패시 메시지"),
@@ -432,6 +437,9 @@ class ProductControllerTest {
             .andExpect(jsonPath("$.success").value(true))
             .andExpect(jsonPath("$.message").doesNotExist())
             .andDo(document("getProductByTown",
+                    requestParameters(
+                      parameterWithName("town").description("읍/면/동 명")
+                    ),
                     responseFields(
                         fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("요청 성공여부"),
                         fieldWithPath("message").type(JsonFieldType.STRING).type(JsonFieldType.NULL).description("요청 실패시 메시지"),
@@ -713,6 +721,9 @@ class ProductControllerTest {
             .andDo(document("addProductImage",
                     pathParameters(
                         parameterWithName("productId").description("상품 key")
+                    ),
+                    requestParts(
+                        partWithName("multipartFiles").description("추가 이미지 file")
                     ),
                     responseFields(
                         fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("요청 성공여부"),
