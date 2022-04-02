@@ -710,7 +710,7 @@ class ProductControllerTest {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.success").value(true))
             .andExpect(jsonPath("$.message").doesNotExist())
-            .andDo(document("saveProduct",
+            .andDo(document("addProductImage",
                     pathParameters(
                         parameterWithName("productId").description("상품 key")
                     ),
@@ -765,7 +765,7 @@ class ProductControllerTest {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.success").value(true))
             .andExpect(jsonPath("$.message").doesNotExist())
-            .andDo(document("saveProduct",
+            .andDo(document("deleteProductImage",
                     pathParameters(
                         parameterWithName("productId").description("상품 key"),
                         parameterWithName("imageId").description("이미지 key")

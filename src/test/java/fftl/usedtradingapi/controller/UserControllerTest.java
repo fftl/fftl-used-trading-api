@@ -309,6 +309,15 @@ class UserControllerTest {
                     pathParameters(
                             parameterWithName("userId").description("유저 key")
                     ),
+                    requestFields(
+                        fieldWithPath("username").type(JsonFieldType.STRING).description("유저 아이디"),
+                        fieldWithPath("password").type(JsonFieldType.STRING).description("유저 비밀번호"),
+                        fieldWithPath("categoryIds").type(JsonFieldType.ARRAY).description("선호 카테고리들"),
+                        fieldWithPath("state").type(JsonFieldType.STRING).description("거주지(도)"),
+                        fieldWithPath("city").type(JsonFieldType.STRING).description("거주지(시군구)"),
+                        fieldWithPath("town").type(JsonFieldType.STRING).description("거주지(읍면동)"),
+                        fieldWithPath("multipartFile").type(JsonFieldType.VARIES).description("프로필 이미지").optional()
+                    ),
                     responseFields(
                         fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("요청 성공여부"),
                         fieldWithPath("message").type(JsonFieldType.STRING).type(JsonFieldType.NULL).description("요청 실패시 메시지"),
@@ -328,17 +337,40 @@ class UserControllerTest {
                         fieldWithPath("data.reviews").type(JsonFieldType.VARIES).description("거래 후기").optional(),
                         fieldWithPath("data.image").type(JsonFieldType.STRING).description("프로필 이미지").optional()
                     )
-
                 )
             );
 
     }
 
+    @DisplayName("유저 삭제하기 테스트")
     @Test
-    void deleteUser() {
+    void deleteUser() throws Exception{
+
         //given
         //when
+        ResultActions actions = mockMvc.perform(
+            RestDocumentationRequestBuilders.delete("/user/{userId}", 1L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8"));
+
         //then
+        actions.andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.success").value(true))
+            .andExpect(jsonPath("$.message").doesNotExist())
+            .andDo(
+                document("deleteUser",
+                    pathParameters(
+                            parameterWithName("userId").description("유저 key")
+                    ),
+                    responseFields(
+                        fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("요청 성공여부"),
+                        fieldWithPath("message").type(JsonFieldType.STRING).type(JsonFieldType.NULL).description("요청 실패시 메시지"),
+                        fieldWithPath("data").type(JsonFieldType.VARIES).type(JsonFieldType.NULL).description("요청 데이터")
+                    )
+                )
+            );
     }
 
     @DisplayName("유저 카테고리 추가하기 테스트")
@@ -365,6 +397,9 @@ class UserControllerTest {
                     //url의 파라미터는 아래와 같이 입력할 수 있다.
                     pathParameters(
                             parameterWithName("userId").description("유저 key")
+                    ),
+                    requestParameters(
+                      parameterWithName("categoryId").description("추가 카테고리 key")
                     ),
                     responseFields(
                         fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("요청 성공여부"),
@@ -413,7 +448,10 @@ class UserControllerTest {
                 document("deleteCategory",
                     //url의 파라미터는 아래와 같이 입력할 수 있다.
                     pathParameters(
-                            parameterWithName("userId").description("유저 key")
+                        parameterWithName("userId").description("유저 key")
+                    ),
+                    requestParameters(
+                        parameterWithName("categoryId").description("삭제 카테고리 key")
                     ),
                     responseFields(
                         fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("요청 성공여부"),
@@ -507,7 +545,7 @@ class UserControllerTest {
             .andExpect(jsonPath("$.success").value(true))
             .andExpect(jsonPath("$.message").doesNotExist())
             .andDo(
-                document("addWishProduct",
+                document("deleteWishProduct",
                     //url의 파라미터는 아래와 같이 입력할 수 있다.
                     pathParameters(
                         parameterWithName("userId").description("유저 key"),
@@ -542,12 +580,11 @@ class UserControllerTest {
     void addUserImage() throws Exception{
         //given
         when(userService.addUserImage(any(Long.class), any(MultipartFile.class))).thenReturn(user);
-        MockMultipartFile imageFile = new MockMultipartFile("multipartFile", new FileInputStream(new File("src/main/resources/testImage.jpg")));
 
         //when
         ResultActions actions = mockMvc.perform(
             RestDocumentationRequestBuilders.multipart("/user/image/{userId}", 1L)
-                .file(imageFile)
+                .file("multipartFile", "img.png".getBytes())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8"));
@@ -561,7 +598,7 @@ class UserControllerTest {
                 document("addUserImage",
                     //url의 파라미터는 아래와 같이 입력할 수 있다.
                     pathParameters(
-                            parameterWithName("userId").description("유저 key")
+                        parameterWithName("userId").description("유저 key")
                     ),
                     requestParts(
                         partWithName("multipartFile").description("유저 이미지 파일")

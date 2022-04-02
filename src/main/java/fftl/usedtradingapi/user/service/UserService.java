@@ -85,8 +85,8 @@ public class UserService {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("해당 id값을 가진 사용자를 찾을 수 없습니다."));
         List<Category> categories = new ArrayList<>();
 
-        for(Long categoryId : request.getCategoryIds()){
-            categories.add(categoryService.getOneCategory(categoryId));
+        for(Category category : request.getCategories()){
+            categories.add(categoryService.getOneCategory(category.getId()));
         }
         request.setCategories(categories);
 

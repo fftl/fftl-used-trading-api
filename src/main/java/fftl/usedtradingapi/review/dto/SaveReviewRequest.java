@@ -3,13 +3,13 @@ package fftl.usedtradingapi.review.dto;
 import fftl.usedtradingapi.product.domain.Product;
 import fftl.usedtradingapi.review.domain.Review;
 import fftl.usedtradingapi.user.domain.User;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Builder
-@Setter
 @Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class SaveReviewRequest {
 
     private String content;
