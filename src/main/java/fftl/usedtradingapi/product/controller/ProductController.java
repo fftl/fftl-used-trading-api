@@ -43,7 +43,6 @@ public class ProductController {
     /**
      * 지역별 상품 조회
      * */
-    //TODO 소분류 지역은 대분류도 받아서 좁혀줘야 할지 고민
     @GetMapping("/state")
     public Response getProductByState(@RequestParam("state") String state){
         List<ProductResponse> productResponses = ProductResponse.toResponse(productService.getProductByState(state));

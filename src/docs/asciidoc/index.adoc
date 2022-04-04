@@ -539,3 +539,66 @@ include::{snippets}/getAllReviewProduct/http-request.adoc[]
 
 ==== [Response HTTP Example]
 include::{snippets}/getAllReviewProduct/http-response.adoc[]
+
+== Review Controller
+
+=== - saveReview
+
+==== [Request URL]
+....
+POST /review
+Content-Type: application/json;charset=UTF-8
+....
+
+==== [Request Fields]
+include::{snippets}/saveReview/request-fields.adoc[]
+
+==== [Response Fields]
+include::{snippets}/saveReview/response-fields.adoc[]
+
+==== [Request HTTP Example]
+include::{snippets}/saveReview/http-request.adoc[]
+
+==== [Response HTTP Example]
+include::{snippets}/saveReview/http-response.adoc[]
+
+=== - updateReview
+
+==== [Request URL]
+....
+PATCH /review
+Content-Type: application/json;charset=UTF-8
+....
+
+==== [Request Fields]
+include::{snippets}/updateReview/path-parameters.adoc[]
+include::{snippets}/updateReview/request-parameters.adoc[]
+
+==== [Response Fields]
+include::{snippets}/updateReview/response-fields.adoc[]
+
+==== [Request HTTP Example]
+include::{snippets}/updateReview/http-request.adoc[]
+
+==== [Response HTTP Example]
+include::{snippets}/updateReview/http-response.adoc[]
+
+=== - deleteReview
+
+==== [Request URL]
+....
+DELETE /review
+Content-Type: application/json;charset=UTF-8
+....
+
+==== [Request Fields]
+include::{snippets}/deleteReview/path-parameters.adoc[]
+
+==== [Response Fields]
+include::{snippets}/deleteReview/response-fields.adoc[]
+
+==== [Request HTTP Example]
+include::{snippets}/deleteReview/http-request.adoc[]
+
+==== [Response HTTP Example]
+include::{snippets}/deleteReview/http-response.adoc[]
