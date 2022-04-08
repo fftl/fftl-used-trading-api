@@ -22,19 +22,4 @@ public class AmazonS3Config {
           .withCredentials(provider)
           .build();
     }
-
-//    @Value("${cloud.aws.credentials.access-key}")
-//    private String accessKey;
-//
-//    @Value("${cloud.aws.credentials.secret-key}")
-//    private String secretKey;
-//
-//    @Bean
-//    public AmazonS3Client amazonS3Client(){
-//        BasicAWSCredentials awsCreds = new BasicAWSCredentials(accessKey, secretKey);
-//        return (AmazonS3Client) AmazonS3ClientBuilder.standard()
-//            .withRegion(region)
-//            .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
-//            .build();
-//    }
 }
