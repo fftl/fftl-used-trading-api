@@ -13,6 +13,7 @@ import fftl.usedtradingapi.product.domain.Status;
 import fftl.usedtradingapi.user.domain.User;
 import fftl.usedtradingapi.user.domain.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -106,6 +107,7 @@ class ImageServiceTest {
             .build();
     }
 
+    @DisplayName("유저 이미지 업로드 테스트")
     @Test
     void uploadUserImage() throws Exception{
         //given
@@ -121,6 +123,7 @@ class ImageServiceTest {
         assertEquals(result.getUrl(), "test.png");
     }
 
+    @DisplayName("상품 이미지 업로드 테스트")
     @Test
     void uploadProductImage() throws Exception{
         //given
@@ -137,6 +140,7 @@ class ImageServiceTest {
 
     }
 
+    @DisplayName("이미지 하나 가져오기 테스트")
     @Test
     void getOneImage() {
         //given
@@ -150,6 +154,7 @@ class ImageServiceTest {
 
     }
 
+    @DisplayName("이미지 삭제하기 테스트")
     @Test
     void deleteImage() {
         //기능이 void를 반환하기 때문에 테스트를 생략합니다.
