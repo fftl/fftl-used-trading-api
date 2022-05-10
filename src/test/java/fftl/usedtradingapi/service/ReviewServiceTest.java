@@ -12,6 +12,7 @@ import fftl.usedtradingapi.review.service.ReviewService;
 import fftl.usedtradingapi.user.domain.User;
 import fftl.usedtradingapi.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -111,6 +112,7 @@ class ReviewServiceTest {
 
     }
 
+    @DisplayName("리뷰 작성하기 테스트")
     @Test
     void saveReview() {
         //given
@@ -126,6 +128,7 @@ class ReviewServiceTest {
         assertEquals(result.getUser(), user);
     }
 
+    @DisplayName("리뷰 수정하기 테스트")
     @Test
     void updateReview() {
         //given
@@ -139,6 +142,7 @@ class ReviewServiceTest {
         assertEquals(result.getUser(), user);
     }
 
+    @DisplayName("리뷰 삭제하기 테스트")
     @Test
     void deleteReview() {
         //기능이 void를 반환하기 때문에 테스트를 생략합니다.
